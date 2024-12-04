@@ -90,7 +90,7 @@ extension Highlight {
         do {
             let realm = try Realm(configuration: readerConfig.realmConfiguration)
             realm.beginWrite()
-            realm.add(self, update: .modified)
+            realm.add(self, update: Realm.UpdatePolicy.all)
             try realm.commitWrite()
             completion?(nil)
         } catch let error as NSError {
@@ -288,18 +288,9 @@ extension Highlight {
     /// - Parameters:
     ///   - page: The page containing the HTML.
     ///   - highlightId: The ID to be removed
-    /// - Returns: The removed id
-    public static func removeFromHTMLById(withinPage page: FolioReaderPage?, highlightId: String,completionHandler:@escaping (String?)->Void){
-        guard let currentPage = page else { return }
-        
-//        if let removedId = currentPage.webView?.js("removeHighlightById('\(highlightId)')") {
-//            return removedId
-//        } else {
-//            print("Error removing Highlight from page")
-//            return nil
-//        }
-        
-        currentPage.webView?.js("removeHighlightById('\(highlightId)')", completionHandler: completionHandler)
+    ///   - completion: JSCallback with removed id
+    public static func removeFromHTMLById(withinPage page: FolioReaderPage?, highlightId: String, completion: JSCallback? = nil) {
+        page?.webView?.js("removeHighlightById('\(highlightId)')", completion: completion)
     }
     
     /**

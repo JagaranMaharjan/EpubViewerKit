@@ -12,9 +12,6 @@ import UIKit
 // MARK: - Internal constants
 
 internal let kApplicationDocumentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-internal let kApplicationCacheDirectory = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
-internal let kEpubFileDirectory = "com.xiaofa.epub_kitty"
-
 internal let kCurrentFontFamily = "com.folioreader.kCurrentFontFamily"
 internal let kCurrentFontSize = "com.folioreader.kCurrentFontSize"
 internal let kCurrentAudioRate = "com.folioreader.kCurrentAudioRate"
@@ -164,10 +161,12 @@ extension FolioReader {
     ///   - shouldRemoveEpub: Boolean to remove the epub or not. Default true.
     ///   - animated: Pass true to animate the presentation; otherwise, pass false.
     open func presentReader(parentViewController: UIViewController, withEpubPath epubPath: String, unzipPath: String? = nil, andConfig config: FolioReaderConfig, shouldRemoveEpub: Bool = true, animated:
-        Bool = true) {
+        Bool = true, fullScreen: Bool = false) {
         let readerContainer = FolioReaderContainer(withConfig: config, folioReader: self, epubPath: epubPath, unzipPath: unzipPath, removeEpub: shouldRemoveEpub)
         self.readerContainer = readerContainer
-        readerContainer.modalPresentationStyle = .currentContext
+//        if (fullScreen) {
+            self.readerContainer?.modalPresentationStyle = .fullScreen
+//        }
         parentViewController.present(readerContainer, animated: animated, completion: nil)
         addObservers()
     }
@@ -235,7 +234,7 @@ extension FolioReader {
             guard let currentPage = self.readerCenter?.currentPage else {
                 return
             }
-                
+
             currentPage.webView?.js("setFontSize('\(currentFontSize.cssIdentifier)')")
         }
     }
@@ -352,6 +351,7 @@ extension FolioReader {
             "pageOffsetX": webView.scrollView.contentOffset.x,
             "pageOffsetY": webView.scrollView.contentOffset.y
             ] as [String : Any]
+
         self.savedPositionForCurrentBook = position
     }
 

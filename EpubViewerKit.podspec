@@ -8,10 +8,10 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 An open source epub reader plugin written in swift
                        DESC
-  s.homepage         = 'https://github.com/JideGuru/EpubViewerKit.git'
+  s.homepage         = 'https://github.com/JagaranMaharjan/EpubViewerKit.git'
   s.license          = "MIT"
-  s.author           = { 'jideguru' => 'guruliciousjide@gmail.com' }
-  s.source           = { :git => 'https://github.com/JideGuru/EpubViewerKit.git', :tag=>'0.1.2' }
+  s.author           = { 'jagaran' => '01jagaranmah10@gmail.com' }
+  s.source           = { :git => 'https://github.com/JagaranMaharjan/EpubViewerKit.git', :branch=>'main' }
   
   s.swift_version = '4.2'
   s.requires_arc  = true
@@ -42,5 +42,5 @@ An open source epub reader plugin written in swift
   s.dependency 'FontBlaster', '5.1.1'
   s.dependency 'RealmSwift', '5.5.1'
   
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '13.0'
 end
